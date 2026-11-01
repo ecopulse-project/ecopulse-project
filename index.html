@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#174d38">
+
+    <title>ECOPULSE | Smart Water Recovery</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5faf4;
+            color: #18352a;
+        }
+
+        header {
+            background: #174d38;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 42px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 16px;
+        }
+
+        nav {
+            background: #2f8057;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 12px;
+            font-weight: bold;
+        }
+
+        section {
+            background: white;
+            margin: 20px auto;
+            padding: 22px;
+            max-width: 950px;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px #00000010;
+        }
+
+        h2 {
+            color: #174d38;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            background: #e8f4e9;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .card h3 {
+            color: #2f8057;
+        }
+
+        .value {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        footer {
+            background: #174d38;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        @media(max-width: 600px) {
+            header h1 {
+                font-size: 32px;
+            }
+
+            nav a {
+                display: inline-block;
+                margin: 7px;
+            }
+        }
+    </style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1b5e20">
+</head>
+
+<body>
+
+<header>
+    <h1>🌿 ECOPULSE</h1>
+    <p>Smart Water Recovery System</p>
+    <h2 style="color:#d9f2df;">Every Drop Matters!</h2>
+</header>
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#monitoring">Monitoring</a>
+    <a href="#process">Water Journey</a>
+    <a href="#about">About</a>
+</nav>
+
+<section id="home">
+    <h2>Welcome to ECOPULSE</h2>
+    <p>
+        ECOPULSE is a science project designed to demonstrate
+        greywater pre-filtration, solar distillation and electronic
+        temperature monitoring.
+    </p>
+</section>
+
+<section id="monitoring">
+    <h2>Monitoring Dashboard</h2>
+
+    <div class="dashboard">
+
+        <div class="card">
+            <h3>🌡️ Temperature</h3>
+            <div class="value">-- °C</div>
+            <p>DS18B20 Sensor</p>
+        </div>
+
+        <div class="card">
+            <h3>💧 Water Recovery</h3>
+            <div class="value">In Progress</div>
+            <p>Recovery Process</p>
+        </div>
+
+        <div class="card">
+            <h3>⚙️ System Status</h3>
+            <div class="value">Offline</div>
+            <p>Arduino Connection</p>
+        </div>
+
+    </div>
+
+    <p>
+        Live readings will be displayed after connecting
+        the Arduino monitoring system.
+    </p>
+</section>
+
+<section id="process">
+    <h2>Water Journey</h2>
+
+    <ol>
+        <li>Greywater enters through the inlet pipe.</li>
+        <li>Water passes through the filter container.</li>
+        <li>Filtered water enters the solar still tray.</li>
+        <li>Water evaporates and condenses on the cover.</li>
+        <li>Recovered water flows into a collection bottle.</li>
+    </ol>
+</section>
+
+<section id="about">
+    <h2>About the Project</h2>
+
+    <p>
+        The aim of ECOPULSE is to demonstrate water recovery
+        and conservation using filtration, solar distillation
+        and electronic monitoring.
+    </p>
+
+    <h3>Electronic Components</h3>
+    <ul>
+        <li>Arduino UNO v1888</li>
+        <li>DS18B20 Temperature Sensor</li>
+        <li>LCD Display</li>
+    </ul>
+
+    <p>
+        <strong>Safety:</strong> The recovered water is not certified
+        as drinking water. Electronics must be kept away from water.
+    </p>
+</section>
+
+<footer>
+    <p>ECOPULSE © 2026</p>
+    <p>Treat Biologically. Recover Naturally. Reuse Responsibly.</p>
+</footer>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js");
+    });
+  }
+</script>
+</body>
+</html>

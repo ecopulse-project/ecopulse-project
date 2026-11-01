@@ -1,0 +1,19 @@
+{
+  "name": "ECOPULSE - Smart Water Recovery",
+  "short_name": "ECOPULSE",
+  "description": "An intelligent bio-solar system for greywater recovery and water conservation.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f0f7ed",
+  "theme_color": "#1b5e20",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
