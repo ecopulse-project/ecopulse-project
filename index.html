@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +7,8 @@
     <meta name="theme-color" content="#174d38">
 
     <title>ECOPULSE | Smart Water Recovery</title>
+
+    <link rel="manifest" href="manifest.json">
 
     <style>
         body {
@@ -80,6 +82,12 @@
             font-weight: bold;
         }
 
+        .updated {
+            font-size: 12px;
+            color: #527064;
+            margin-top: 10px;
+        }
+
         footer {
             background: #174d38;
             color: white;
@@ -99,8 +107,6 @@
             }
         }
     </style>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#1b5e20">
 </head>
 
 <body>
@@ -134,8 +140,11 @@
 
         <div class="card">
             <h3>🌡️ Temperature</h3>
-            <div class="value">-- °C</div>
+            <div class="value" id="temperature">-- °C</div>
             <p>DS18B20 Sensor</p>
+            <div class="updated" id="readingTime">
+                Waiting for data...
+            </div>
         </div>
 
         <div class="card">
@@ -146,15 +155,14 @@
 
         <div class="card">
             <h3>⚙️ System Status</h3>
-            <div class="value">Offline</div>
-            <p>Arduino Connection</p>
+            <div class="value" id="systemStatus">Connecting...</div>
+            <p>ThingSpeak Connection</p>
         </div>
 
     </div>
 
-    <p>
-        Live readings will be displayed after connecting
-        the Arduino monitoring system.
+    <p id="lastChecked">
+        Connecting to ECOPULSE monitoring system...
     </p>
 </section>
 
@@ -182,6 +190,7 @@
     <h3>Electronic Components</h3>
     <ul>
         <li>Arduino UNO v1888</li>
+        <li>NodeMCU ESP8266</li>
         <li>DS18B20 Temperature Sensor</li>
         <li>LCD Display</li>
     </ul>
@@ -196,12 +205,88 @@
     <p>ECOPULSE © 2026</p>
     <p>Treat Biologically. Recover Naturally. Reuse Responsibly.</p>
 </footer>
+
 <script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./sw.js");
-    });
-  }
+    // Public ThingSpeak channel
+    const channelID = "3564423";
+
+    const dataURL =
+        `https://api.thingspeak.com/channels/${channelID}/feeds.json?results=1`;
+
+    async function updateDashboard() {
+        const temperatureElement =
+            document.getElementById("temperature");
+
+        const statusElement =
+            document.getElementById("systemStatus");
+
+        const timeElement =
+            document.getElementById("readingTime");
+
+        const checkedElement =
+            document.getElementById("lastChecked");
+
+        try {
+            const response = await fetch(dataURL, {
+                cache: "no-store"
+            });
+
+            if (!response.ok) {
+                throw new Error("Unable to access ThingSpeak");
+            }
+
+            const data = await response.json();
+
+            if (!data.feeds || data.feeds.length === 0) {
+                throw new Error("No readings available");
+            }
+
+            const latestReading =
+                data.feeds[data.feeds.length - 1];
+
+            const temperature =
+                parseFloat(latestReading.field1);
+
+            if (!Number.isFinite(temperature)) {
+                throw new Error("Invalid temperature reading");
+            }
+
+            temperatureElement.textContent =
+                temperature.toFixed(2) + " °C";
+
+            statusElement.textContent = "Online";
+
+            const readingDate =
+                new Date(latestReading.created_at);
+
+            timeElement.textContent =
+                "Reading: " + readingDate.toLocaleString();
+
+            checkedElement.textContent =
+                "Last checked: " + new Date().toLocaleTimeString();
+
+        } catch (error) {
+            statusElement.textContent = "Offline";
+
+            checkedElement.textContent =
+                "Unable to retrieve the latest reading. Retrying soon.";
+
+            console.error("ECOPULSE error:", error);
+        }
+    }
+
+    // Update immediately and then every 20 seconds
+    updateDashboard();
+    setInterval(updateDashboard, 20000);
+
+    // Register website service worker
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register("./sw.js");
+        });
+    }
 </script>
+
 </body>
 </html>
+```
