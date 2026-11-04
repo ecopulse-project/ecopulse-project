@@ -1,4 +1,3 @@
-```javascript
 const CACHE_NAME = "ecopulse-v2";
 
 const APP_FILES = [
@@ -54,4 +53,3 @@ self.addEventListener("fetch", event => {
         );
     }
 });
-```
