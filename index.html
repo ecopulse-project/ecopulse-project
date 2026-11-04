@@ -253,10 +253,21 @@
             temperatureElement.textContent =
                 temperature.toFixed(2) + " °C";
 
-            statusElement.textContent = "Online";
-
             const readingDate =
-                new Date(latestReading.created_at);
+    new Date(latestReading.created_at);
+
+const ageSeconds =
+    (Date.now() - readingDate.getTime()) / 1000;
+
+if (!Number.isFinite(readingDate.getTime())) {
+    throw new Error("Invalid reading timestamp");
+}
+
+if (ageSeconds >= 0 && ageSeconds <= 90) {
+    statusElement.textContent = "Online";
+} else {
+    statusElement.textContent = "Offline (Stale Data)";
+}
 
             timeElement.textContent =
                 "Reading: " + readingDate.toLocaleString();
